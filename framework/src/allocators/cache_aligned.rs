@@ -18,7 +18,7 @@ impl<T: Sized> Drop for CacheAligned<T> {
     fn drop(&mut self) {
         unsafe {
             alloc::Global.dealloc(
-                NonNull::<u8>::new_unchecked(self.ptr.as_ptr() as *mut Opaque),
+                NonNull::<u8>::new_unchecked(self.ptr.as_ptr() as *mut u8),
                 Layout::from_size_align(size_of::<T>(), CACHE_LINE_SIZE).unwrap(),
             );
         }
