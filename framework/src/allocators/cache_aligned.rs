@@ -59,7 +59,7 @@ where
             let alloc = allocate_cache_line(size_of::<T>()) as *mut T;
             ptr::copy(self.ptr.as_ptr() as *const T, alloc, 1);
             CacheAligned {
-                ptr: Unique::new(alloc).unwrap(),
+                ptr: NonNull::new(alloc).unwrap(),
             }
         }
     }
