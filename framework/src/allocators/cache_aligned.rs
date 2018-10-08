@@ -25,6 +25,8 @@ impl<T: Sized> Drop for CacheAligned<T> {
     }
 }
 
+unsafe impl<T: Sized> std::marker::Send for CacheAligned<T> {}
+
 impl<T: Sized> Deref for CacheAligned<T> {
     type Target = T;
     fn deref(&self) -> &T {
