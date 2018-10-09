@@ -3,6 +3,7 @@ use std::fmt;
 use std::mem::size_of;
 use std::ops::{Deref, DerefMut};
 use std::ptr::{self, NonNull};
+use std::marker::{Sync, Send};
 
 const CACHE_LINE_SIZE: usize = 64;
 unsafe fn allocate_cache_line(size: usize) -> *mut u8 {
@@ -25,7 +26,9 @@ impl<T: Sized> Drop for CacheAligned<T> {
     }
 }
 
-unsafe impl<T: Sized> std::marker::Send for CacheAligned<T> {}
+unsafe impl<T: Sized> Send for CacheAligned<T> {}
+
+unsafe impl<T: Sized> Sync for CacheAligned<T> {}
 
 impl<T: Sized> Deref for CacheAligned<T> {
     type Target = T;
